@@ -1,13 +1,9 @@
 <template>
     <div>
-        this is the sign up page
+this is the sign up page
     </div>
 </template>
 
-<script setup>
-
+<script>
+    
 </script>
-
-<style scoped>
-
-</style>
