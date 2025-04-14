@@ -175,7 +175,6 @@ const closeResendConfirmationPopup = () => {
 </script>
 
 <style scoped>
-/* General Layout */
 .root {
   display: flex;
   flex-direction: row;
@@ -185,7 +184,7 @@ const closeResendConfirmationPopup = () => {
   margin: auto;
   background-color: #f9f6ee;
 }
-
+/* General Layout */
 .left-col,
 .right-col {
   width: 50%;
@@ -206,6 +205,11 @@ const closeResendConfirmationPopup = () => {
 
 .form-container {
   padding: 20px;
+}
+
+.form-header
+{
+  text-align: center;
 }
 
 /* Form Styling */
