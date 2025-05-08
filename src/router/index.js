@@ -37,17 +37,17 @@ const router = createRouter({
           component: OverviewPage
         },
         { 
-          path: '/herd-dashboard', 
+          path: 'herd-dashboard', 
           name:'HerdDashboard',
           component: HerdDashboardPage
         },
         { 
-          path: '/system-alert', 
+          path: 'system-alert', 
           name:'Alerts',
           component: AlertPage
         },
         { 
-          path: '/prediction-log', 
+          path: 'prediction-log', 
           name:'PredictionLog',
           component: PredictionLogPage
         },
@@ -57,12 +57,12 @@ const router = createRouter({
           component: CattleInformationPage
         },
         { 
-          path: '/reports', 
+          path: 'reports', 
           name:'Reports',
           component: ReportPage
         },
         { 
-          path: '/settings-and-help', 
+          path: 'settings-and-help', 
           name:'SeettingsAndHelp',
           component: SettingsAndHelpPage
         }
