@@ -8,7 +8,7 @@
       <!-- Right Column -->
       <div class="right-col">
         <div class="logo">
-          <h1>Cattle.<sup>360</sup></h1>
+          <img src="/cow-logo-design-inspiration-bull-and-buffalo-cow-animal-logo-design-free-vector.jpg" alt="">
         </div>
         <div class="form-container">
           <div class="form-header">
@@ -184,7 +184,7 @@ const closeResendConfirmationPopup = () => {
   margin: auto;
   background-color: #f9f6ee;
 }
-/* General Layout */
+
 .left-col,
 .right-col {
   width: 50%;
@@ -196,11 +196,17 @@ const closeResendConfirmationPopup = () => {
   flex-direction: column;
 }
 
-.logo h1 {
-  color: #481f01;
-  text-align: center;
-  font-size: 24px;
-  margin-top: 20px;
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img 
+  {
+    width: 100px;
+    height:100px;
+    border-radius: 50%;
+  }
 }
 
 .form-container {
