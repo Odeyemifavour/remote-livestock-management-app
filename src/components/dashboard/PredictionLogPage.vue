@@ -10,8 +10,15 @@
           <label for="outcome-filter">Filter by Outcome:</label>
           <select id="outcome-filter" v-model="predictionOutcomeFilter">
             <option value="">All</option>
-            <option value="Healthy">Healthy</option>
-            <option value="Unhealthy">Unhealthy</option>
+            <option value="No Health Risk Predicted">No Health Risk Predicted</option>
+            <option value="Respiratory Diseases">Respiratory Diseases</option>
+            <option value="Gastrointestinal Diseases">Gastrointestinal Diseases</option>
+            <option value="Metabolic Disorders">Metabolic Disorders</option>
+            <option value="Udder Health Issues">Udder Health Issues</option>
+            <option value="Reproductive Diseases">Reproductive Diseases</option>
+            <option value="Lameness and Musculoskeletal Issues">Lameness and Musculoskeletal Issues</option>
+            <option value="Systemic Infections">Systemic Infections</option>
+            <option value="General Illness/Morbidity/Health status">General Illness/Morbidity/Health status</option>
           </select>
         </div>
         <div class="filter">
@@ -30,7 +37,8 @@
             <tr>
               <th>Date/Time of Prediction</th>
               <th>Animal ID</th>
-              <th>Prediction Outcome</th>
+              <th>Predicted Illness</th>
+              <th>Status</th>
               <th>Confidence Score</th>
               <th>Input Data Summary</th>
             </tr>
@@ -39,9 +47,8 @@
             <tr v-for="prediction in filteredPredictions" :key="prediction.id">
               <td>{{ prediction.dateTime }}</td>
               <td>{{ prediction.animalId }}</td>
-              <td :class="{ 'healthy': prediction.outcome === 'Healthy', 'unhealthy': prediction.outcome === 'Unhealthy' }">
-                {{ prediction.outcome }}
-              </td>
+              <td>{{ prediction.outcome }}</td>
+              <td :class="{ 'healthy': prediction.status === 'Healthy', 'unhealthy': prediction.status === 'Unhealthy' }">{{ prediction.status }}</td>
               <td>{{ prediction.confidenceScore !== null ? prediction.confidenceScore + '%' : 'N/A' }}</td>
               <td>
                 <button @click="showInputDialog(prediction.inputData)">View Data</button>
@@ -56,7 +63,7 @@
         <div class="modal">
           <span class="close-icon" @click="closeInputDialog">×</span>
           <h3>Input Data Summary</h3>
-          <pre>{{ JSON.stringify(selectedInputData, null, 2) }}</pre>
+          <pre>{{ formatInputData(selectedInputData) }}</pre>
           <button @click="closeInputDialog">Close</button>
         </div>
       </div>
@@ -68,8 +75,9 @@
   
   // Dummy Predictions Data - Replace with API call
   const predictionsData = ref([
-    { id: 1, dateTime: '2025-05-08 09:30', animalId: 102, outcome: 'Unhealthy', confidenceScore: 92, inputData: { feverIndex: 4.5, respiratoryRate: 35 /* ... other features */ } },
-    { id: 2, dateTime: '2025-05-08 10:00', animalId: 101, outcome: 'Healthy', confidenceScore: 88, inputData: { feverIndex: 2.1, respiratoryRate: 25 /* ... other features */ } },
+    { id: 1, dateTime: '2025-05-08 09:30', animalId: 102, outcome: 'Respiratory Diseases', confidenceScore: 92, inputData: { body_temperature: 39.8, breed_type: 'Jersey', respiratory_rate: 35, milk_production: 18, walking_capacity: 1, sleeping_duration: 14, body_condition_score: 2, heart_rate: 75, eating_duration: 4, lying_down_duration: 16, ruminating: 6, rumen_fill: 2, faecal_consistency: 'Loose' }, status: 'Unhealthy' },
+    { id: 2, dateTime: '2025-05-08 10:00', animalId: 101, outcome: 'No Health Risk Predicted', confidenceScore: 88, inputData: { body_temperature: 38.5, breed_type: 'Holstein', respiratory_rate: 25, milk_production: 25, walking_capacity: 4, sleeping_duration: 10, body_condition_score: 3, heart_rate: 60, eating_duration: 6, lying_down_duration: 12, ruminating: 8, rumen_fill: 4, faecal_consistency: 'Normal' }, status: 'Healthy' },
+    { id: 3, dateTime: '2025-05-07 15:00', animalId: 103, outcome: 'Gastrointestinal Diseases', confidenceScore: 78, inputData: { body_temperature: 37.9, breed_type: 'Angus', respiratory_rate: 20, milk_production: null, walking_capacity: 5, sleeping_duration: 11, body_condition_score: 4, heart_rate: 52, eating_duration: 8, lying_down_duration: 10, ruminating: 9, rumen_fill: 5, faecal_consistency: 'Watery' }, status: 'Unhealthy' },
     // Add more prediction logs
   ]);
   
@@ -104,7 +112,21 @@
     showInputDataDialog.value = false;
     selectedInputData.value = null;
   };
+  
+  const formatInputData = (data) => {
+    let formattedString = '';
+    for (const key in data) {
+      if (Object.hasOwnProperty.call(data, key)) {
+        formattedString += `${key}: ${data[key]}\n`;
+      }
+    }
+    return formattedString;
+  };
   </script>
+  
+
+  
+
   
   <style scoped>
   .predictions-log-container {

@@ -50,7 +50,7 @@
   
       <div class="quick-actions">
         <button @click="openAddAnimalModal">Add New Animal</button>
-        <button @click="$router.push('/dashboard/herd')">View Herd Dashboard</button>
+        <button @click="$router.push('/dashboard/herd-dashboard')">View Herd Dashboard</button>
       </div>
   
       <div v-if="showAddAnimalModal" class="modal-overlay">
