@@ -1,18 +1,29 @@
 <template>
     <div class="cattle-info-container">
-      <h2>Cattle Information - Animal ID: {{ cattle.animalId }}</h2>
+      <h2>Cattle Information - Animal ID: {{ cattle?.animalId }}</h2>
   
       <div class="profile-section" v-if="cattle">
         <h3>Animal Profile</h3>
         <p><strong>Animal ID:</strong> {{ cattle.animalId }}</p>
         <p><strong>Breed:</strong> {{ cattle.breed || 'N/A' }}</p>
-        <p><strong>Age:</strong> {{ cattle.age || 'N/A' }}</p>
-        <p><strong>Current Health Prediction:</strong> <span :class="{ 'healthy': cattle.healthStatus === 'Healthy', 'unhealthy': cattle.healthStatus === 'Unhealthy', 'observation': cattle.healthStatus === 'Observation' }">{{ cattle.healthStatus }}</span></p>
+        <p><strong>Body Temperature:</strong> {{ cattle.latestTemperature }}</p>
+        <p><strong>Respiratory Rate:</strong> {{ cattle.latestRespiratoryRate }}</p>
+        <p><strong>Milk Production:</strong> {{ cattle.latestMilkProduction || 'N/A' }}</p>
+        <p><strong>Walking Capacity:</strong> {{ cattle.walking_capacity || 'N/A' }}</p>
+        <p><strong>Sleeping Duration:</strong> {{ cattle.sleeping_duration || 'N/A' }}</p>
+        <p><strong>Body Condition Score:</strong> {{ cattle.body_condition_score || 'N/A' }}</p>
+        <p><strong>Heart Rate:</strong> {{ cattle.heart_rate || 'N/A' }}</p>
+        <p><strong>Eating Duration:</strong> {{ cattle.eating_duration || 'N/A' }}</p>
+        <p><strong>Lying Down Duration:</strong> {{ cattle.lying_down_duration || 'N/A' }}</p>
+        <p><strong>Ruminating:</strong> {{ cattle.ruminating || 'N/A' }}</p>
+        <p><strong>Rumen Fill:</strong> {{ cattle.rumen_fill || 'N/A' }}</p>
+        <p><strong>Faecal Consistency:</strong> {{ cattle.faecal_consistency || 'N/A' }}</p>
+        <p><strong>Health Status:</strong> {{ cattle.healthStatus }}</p>
+        <p><strong>Current Prediction:</strong> {{ cattle.prediction }}</p>
       </div>
-      <div v-else>Loading animal information...</div>
   
       <div class="metrics-charts" v-if="cattle">
-        <h3>Historical Health Metrics</h3>
+        <h3>Historical Health Metrics (Example - Adapt as needed)</h3>
         <div class="chart-row">
           <div class="chart-container">
             <h4>Body Temperature</h4>
@@ -23,18 +34,7 @@
             <canvas id="respRateChart"></canvas>
           </div>
         </div>
-        <div class="chart-row">
-          <div class="chart-container">
-            <h4>Milk Production</h4>
-            <canvas id="milkChart"></canvas>
-          </div>
-          <div class="chart-container">
-            <h4>Walking Capacity</h4>
-            <canvas id="walkingChart"></canvas>
-          </div>
-        </div>
-        </div>
-      <div v-else>Loading charts...</div>
+      </div>
   
       <div class="prediction-history" v-if="cattle">
         <h3>Prediction History</h3>
@@ -56,7 +56,6 @@
         </table>
         <p v-else>No prediction history available for this animal.</p>
       </div>
-      <div v-else>Loading prediction history...</div>
   
       <div class="alert-history" v-if="cattle">
         <h3>Alert History</h3>
@@ -80,14 +79,12 @@
         </table>
         <p v-else>No alert history available for this animal.</p>
       </div>
-      <div v-else>Loading alert history...</div>
   
       <div class="notes-section" v-if="cattle">
         <h3>Notes</h3>
         <textarea v-model="notes" placeholder="Add notes about this animal"></textarea>
         <button>Save Notes</button>
       </div>
-      <div v-else>Loading notes...</div>
     </div>
   </template>
   
@@ -101,39 +98,55 @@
   const cattle = ref(null);
   const notes = ref('');
   
-  onMounted(() => {
-    // Dummy Cattle Data - Replace with API call based on animalId.value
-    const dummyCattle = {
-      animalId: parseInt(animalId.value),
-      breed: 'Holstein',
-      age: '3 years',
-      healthStatus: 'Unhealthy',
-      latestTemperature: 39.8,
-      latestRespiratoryRate: 35,
-      predictions: [
-        { id: 1, dateTime: '2025-05-08 09:30', outcome: 'Unhealthy', confidence: 92 },
-        { id: 2, dateTime: '2025-05-07 18:00', outcome: 'Healthy', confidence: 75 },
-      ],
-      alerts: [
-        { id: 1, dateTime: '2025-05-08 09:30', type: 'High Fever', description: 'Temperature above normal', status: 'New' },
-      ],
-      healthMetrics: {
-        temperature: [38.5, 39.0, 39.5, 39.8],
-        respiratoryRate: [24, 28, 32, 35],
-        milkProduction: [25, 24, 22, 18],
-        walkingCapacity: [4, 3, 2, 1], // Example scale 1-5
-      },
-    };
-    cattle.value = dummyCattle;
-    notes.value = 'Initial observation of lethargy.';
+  const possiblePredictions = [
+    'Respiratory Diseases',
+    'Gastrointestinal Diseases',
+    'Metabolic Disorders',
+    'Udder Health Issues',
+    'Reproductive Diseases',
+    'Lameness and Musculoskeletal Issues',
+    'Systemic Infections',
+    'General Illness/Morbidity/Health status',
+  ];
   
+  cattle.value = {
+    animalId: parseInt(route.params.id),
+    breed: "Holstein",
+    latestTemperature: 38.6,
+    latestRespiratoryRate: 24,
+    latestMilkProduction: 26.5,
+    walking_capacity: 5,
+    sleeping_duration: 9.5,
+    body_condition_score: 3.5,
+    heart_rate: 58,
+    eating_duration: 7,
+    lying_down_duration: 13,
+    ruminating: 8.5,
+    rumen_fill: 4,
+    faecal_consistency: "Normal",
+    healthStatus: "Healthy",
+    prediction: possiblePredictions[Math.floor(Math.random() * possiblePredictions.length)],
+    predictions: [
+      { id: 1, dateTime: "2025-05-09 08:00", outcome: possiblePredictions[Math.floor(Math.random() * possiblePredictions.length)], confidence: 88 },
+      { id: 2, dateTime: "2025-05-08 19:30", outcome: possiblePredictions[Math.floor(Math.random() * possiblePredictions.length)], confidence: 75 },
+    ],
+    alerts: [
+      { id: 1, dateTime: "2025-05-09 07:15", type: "System Check", description: "Daily system check completed", status: "Resolved" },
+    ],
+    healthMetrics: {
+      temperature: [38.5],
+      respiratoryRate: [23],
+    },
+  };
+  
+  onMounted(() => {
     if (cattle.value && cattle.value.healthMetrics) {
       const renderLineChart = (canvasId, data) => {
         const ctx = document.getElementById(canvasId).getContext('2d');
         new Chart(ctx, {
           type: 'line',
           data: {
-            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4'], // Example labels
+            labels: ['Current'],
             datasets: [{
               label: canvasId.replace('Chart', ''),
               data: data,
@@ -151,12 +164,8 @@
           },
         });
       };
-  
       renderLineChart('tempChart', cattle.value.healthMetrics.temperature);
       renderLineChart('respRateChart', cattle.value.healthMetrics.respiratoryRate);
-      renderLineChart('milkChart', cattle.value.healthMetrics.milkProduction);
-      renderLineChart('walkingChart', cattle.value.healthMetrics.walkingCapacity);
-      // Render other charts similarly
     }
   });
   </script>
