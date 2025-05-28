@@ -29,7 +29,7 @@
           </li>
         </ul>
         <p v-else>No recent critical alerts.</p>
-        <button @click="$router.push('/dashboard/alerts')">View All Alerts</button>
+        <button @click="$router.push('/dashboard/system-alert')">View All Alerts</button>
       </div>
   
       <div class="metric-trends">

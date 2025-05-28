@@ -4,7 +4,8 @@
       <div class="main-content">
         <TopNavbar />
         <div class="content-area">
-          <router-view /> </div>
+          <router-view />
+        </div>
       </div>
     </div>
   </template>
